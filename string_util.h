@@ -36,8 +36,12 @@ void switch_case(string& s);
  *@sSrc： 源字符串
  *@sSep： 分隔符，默认值会将字符串中的任意空白字符视为分割字符串
  *@bRmEmpty：是否删除分割结果中的空字符串
+ *@bMatchAny: true-匹配sSep中的任何一个字符， false-匹配sSep整个字符
  */
-vector<string> split(const string& sSrc, const string& sSep=" \t\n\v\f\r", bool bRmEmpty = true);
+vector<string> split(const string& sSrc, const string& sSep=" \t\n\v\f\r", bool bRmEmpty = true, bool bMatchAny = false);
+
+// 分割行
+vector<string> split_lines(const string& sSrc);
 
 // 拼接字符串
 string join(const vector<string>& v, const string& sSep="|");
