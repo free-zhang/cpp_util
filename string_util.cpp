@@ -30,11 +30,11 @@ void switch_case(string& s){
     transform(s.begin(), s.end(), s.begin(), switch_letter);
 }
 
-vector<string> split(const string& sSrc, const string& sSep, bool bRmEmpty){
+vector<string> split(const string& sSrc, const string& sSep, bool bRmEmpty, bool bMatchAny){
     if(sSrc.empty()) return {};
 
-    const string sDefault = " \t\n\v\f\r";
-    string::size_type pos1 = 0, pos2 = (sSep == sDefault) ? sSrc.find_first_of(sSep) : sSrc.find(sSep);
+    bMatchAny = (sSep == string(" \t\n\v\f\r")) ? true : bMatchAny;
+    string::size_type pos1 = 0, pos2 = bMatchAny ? sSrc.find_first_of(sSep) : sSrc.find(sSep);
 
     vector<string> vRes;
     while(string::npos != pos2){
@@ -43,17 +43,21 @@ vector<string> split(const string& sSrc, const string& sSep, bool bRmEmpty){
             vRes.push_back(sSrc.substr(pos1, pos2 - pos1));
         }
 
-        pos1 = pos2 + ((sSep == sDefault) ? 1 : sSep.size());
-        pos2 = (sSep == sDefault) ? sSrc.find_first_of(sSep, pos1) : sSrc.find(sSep, pos1);
+        pos1 = pos2 + (bMatchAny ? 1 : sSep.size());
+        pos2 = bMatchAny ? sSrc.find_first_of(sSep, pos1) : sSrc.find(sSep, pos1);
     }
 
     if (pos1 != sSrc.length()){
         vRes.push_back(sSrc.substr(pos1));
     }else if (pos1 == sSrc.length() && !bRmEmpty){  // 分隔符在字符串尾部，插入一个空格
-        vRes.push_back("");
+        vRes.emplace_back("");
     }
 
     return move(vRes);
+}
+
+vector<string> split_lines(const string& sSrc){
+    return move(split(sSrc, "\r\n", true, true));
 }
 
 string join(const vector<string>& v, const string& sSep){
