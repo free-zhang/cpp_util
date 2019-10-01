@@ -51,47 +51,51 @@ using  namespace std;
 struct Debug {
     template <typename T>
     static string to_str(const T& t){
-        return (to_string(t));
+        return move(to_string(t));
     };
 
+    static string to_str(const bool& t){
+        return move(t ? "true" : "false");
+    }
+
     static string to_str(const string& s){
-        return ("\"" + s + "\"");
+        return move("\"" + s + "\"");
     }
 
     template<typename T>
     static string to_str(const vector<T>& v) {
         string s("[ ");
-        for (auto &i : v) { s += to_str(i) + ", "; }
-        return (s += "]");
+        for (const auto &i : v) { s += to_str(i) + ", "; }
+        return move(s += "]");
     };
 
     template<typename T>
     static string to_str(const vector<vector<T>>& v) {
         string s("[ ");
-        for (auto &i : v) s += to_str(i) + ", ";
-        return (s + "]");
+        for (const auto &i : v) s += to_str(i) + ", ";
+        return move(s + "]");
     };
 
 
     template<typename T1, typename T2>
     static string to_str(const map<T1, T2>& m) {
         string s("{ ");
-        for (auto &i : m) { s += to_str(i.first) + " : " + to_str(i.second) + ", "; }
-        return (s += "}");
+        for (const auto &i : m) { s += to_str(i.first) + " : " + to_str(i.second) + ", "; }
+        return move(s += "}");
     };
 
     template <typename T>
     static string to_str(const set<T>& st){
         string s("{ ");
-        for(auto &i : st){s += to_str(i) + ", ";}
-        return (s += "}");
+        for(const auto &i : st){s += to_str(i) + ", ";}
+        return move(s += "}");
     }
 
     template <typename T1, typename T2, typename T3>
     static string to_str(const map<T1, map<T2, T3>>& m){
         string s("{ ");
-        for (auto &i : m) { s += to_str(i.first) + " : " + to_str(i.second) + ", "; }
-        return (s += "}");
+        for (const auto &i : m) { s += to_str(i.first) + " : " + to_str(i.second) + ", "; }
+        return move(s += "}");
     };
 };
 
